@@ -10,7 +10,7 @@ def create_app():
     initialize_database()
 
     app = Flask(__name__)
-    app.config.from_object(CURRENT_CONFIG)
     app.register_blueprint(res_blueprint)
+    app.config.from_object(CURRENT_CONFIG)
 
     return app
