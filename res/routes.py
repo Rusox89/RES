@@ -1,7 +1,7 @@
 from flask import Blueprint, make_response
 from res.models import Report, get_session
 from dicttoxml import dicttoxml
-from fpdf import FPDF
+from res.helpers import PDFReport
 
 res_blueprint = Blueprint('res', __name__, url_prefix='/res')
 
@@ -35,45 +35,8 @@ def pdf_handler(oid):
     session.close()
 
     # Create PDF object
-    pdf = FPDF()
-
-    # Add a page
-    pdf.add_page()
-
-    # Set title
-    pdf.set_title("THE REPORT")
-
-    # Print title
-    pdf.set_font('Arial', 'B', 24)
-    pdf.set_xy(75, 30)
-    pdf.cell(0, 0, "THE REPORT")
-
-    # Print right box
-    pdf.set_font('Arial', 'B', 12)
-    pdf.set_xy(120, 50)
-    pdf.multi_cell(
-        0, 3,
-        "\n".join(
-            [
-                "Organization: {}\n".format(report_dict['organization']),
-                "Reported: {}\n".format(report_dict['reported_at']),
-                "Created: {}".format(report_dict['created_at'])
-            ]
-        )
-    )
-
-    # Print report inventory
-    pdf.set_font('Arial', 'B', 12)
-    pdf.set_xy(75, 150)
-    inventory_text = '\n'.join(
-        [
-            "{price:_<10} {name}".format(**element)
-            for element in report_dict['inventory']
-        ]
-    )
-    pdf.multi_cell(0, 5, inventory_text)
-
-    pdf_bytes = pdf.output(dest='S').encode('latin-1')
+    pdf = PDFReport(report_dict)
+    pdf_bytes = pdf.bytes()
 
     response = make_response(pdf_bytes, 200)
     response.headers['Content-Type'] = 'application/pdf'
