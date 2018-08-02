@@ -58,4 +58,5 @@ class PDFReport(FPDF):
         self.multi_cell(0, 5, inventory_text)
 
     def bytes(self):
+        """ Returns the bytes for the pdf """
         return self.output(dest='S').encode(self.ENCODING)

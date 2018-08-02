@@ -1,4 +1,4 @@
-from flask import Blueprint, make_response
+from flask import Blueprint, make_response, abort
 from res.models import Report, get_session
 from dicttoxml import dicttoxml
 from res.helpers import PDFReport
@@ -14,6 +14,8 @@ def xml_handler(oid):
     """
     session = get_session()
     report = session.query(Report).get(oid)
+    if report is None:
+        abort(404)
     report_dict = report.to_dict()
     xml = dicttoxml(report_dict)
     session.close()
@@ -31,6 +33,8 @@ def pdf_handler(oid):
     """
     session = get_session()
     report = session.query(Report).get(oid)
+    if report is None:
+        abort(404)
     report_dict = report.to_dict()
     session.close()
 
