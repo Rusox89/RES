@@ -9,6 +9,8 @@ class SuadeConfig(object):
     DB_PASSWORD = os.getenv('DB_PASSWORD') 
     DB_HOSTNAME = "candidate.suade.org"
     DB_DATABASE = "suade"
+    SERVER_NAME = '0.0.0.0:5000'
+    DEBUG = True
 
 
 # Normally I have several configs and this is why I use CURRENT_CONFIG through
