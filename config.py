@@ -6,9 +6,11 @@ class SuadeConfig(object):
     """ The SuadeConfig """
     DB_PROTOCOL = "postgres"
     DB_USERNAME = os.getenv('DB_USERNAME') #Hiding those
-    DB_PASSWORD = os.getenv('DB_PASSWORD') 
+    DB_PASSWORD = os.getenv('DB_PASSWORD')
     DB_HOSTNAME = "candidate.suade.org"
     DB_DATABASE = "suade"
+    HOSTNAME = "localhost"
+    PORT = 5000
     FLASK_HOST = "0.0.0.0"
     FLASK_PORT = 5000
     DEBUG = True
